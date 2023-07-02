@@ -1,0 +1,31 @@
+﻿@model FolderDto
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Folder Explorer";
+}
+
+<div>
+    <h3>"Folder" - @Model.Name</h3>
+
+    <div style="display: flex; margin-bottom: 12px">
+        <form asp-action="ExportAsJson" method="get" style="margin-right: 12px">
+            <input type="submit" value="Export"/>
+        </form>
+
+        <form style="display: flex; flex-direction: column;" method="post" enctype="multipart/form-data">
+            <input type="file" name="file"/>
+            <button type="submit" asp-action="ImportAsJson">Import</button>
+        </form>
+    </div>
+
+    <div style="display: flex; flex-direction: column">
+        @if (Model.ChildFolders is {Count: > 0 })
+        {
+            @foreach (var child in Model.ChildFolders)
+            {
+                <a asp-action="Index" asp-route-id="@child.Id">@child.Name</a>
+            }
+        }
+    </div>
+</div>
